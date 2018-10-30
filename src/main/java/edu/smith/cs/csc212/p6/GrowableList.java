@@ -1,10 +1,10 @@
 package edu.smith.cs.csc212.p6;
 
 import edu.smith.cs.csc212.p6.errors.EmptyListError;
-import edu.smith.cs.csc212.p6.errors.P6NotImplemented;
+
 
 public class GrowableList<T> implements P6List<T> {
-	public static final int START_SIZE = 32;
+	public static final int START_SIZE = 2;
 	private Object[] array;
 	private int fill;
 	
@@ -49,29 +49,45 @@ public class GrowableList<T> implements P6List<T> {
 
 	@Override
 	public void addFront(T item) {
-		throw new P6NotImplemented();
+		if(fill >= this.array.length) {
+			makeArrayBigger();
+		}
+		
+		addIndex(item, 0);
+//		int newArraySize = fill * 2;
+//		Object[] newArray = new Object[newArraySize];
+//		
+//		for(int i = 0; i < array.length; i++) {
+//			newArray[i] = array[i+1];
+//		}
+//		this.array = newArray;
+//		this.array[0] = item;
 	}
 
+	private void makeArrayBigger() {
+		int newArraySize = fill * 2;
+		Object [] newArray = new Object[newArraySize];
+		for(int i = 0; i < array.length; i++) {
+			newArray[i] = array[i];
+		}
+		this.array = newArray;
+	}
 	@Override
 	public void addBack(T item) {
-		
-		if(fill < this.array.length) {
-			this.array[fill++] = item;
-		} else {
-			int newArraySize = fill * 2;
-			Object [] newArray = new Object[newArraySize];
-			for(int i = 0; i < array.length; i++) {
-				newArray[i] = array[i];
-			}
-			this.array = newArray;
-			newArray[fill] = item;
-			fill++;
-		}
+		addIndex(item, fill);
 	}
 
 	@Override
 	public void addIndex(T item, int index) {
-		throw new P6NotImplemented();
+		if (fill >= array.length) {
+			makeArrayBigger();
+		}
+		// loop backwards, shifting items to the right.
+		for (int j=fill; j>index; j--) {
+			array[j] = array[j-1];
+		}
+		array[index] = item;
+		fill++;		
 	}
 	
 	@Override

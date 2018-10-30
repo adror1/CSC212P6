@@ -92,12 +92,10 @@ public class GrowableListTest {
 	}
 	
 	
-	@Test(expected=RanOutOfSpaceError.class)
 	public void testAddFrontFull() {
 		makeFullList().addFront("no space");
 	}
 	
-	@Test(expected=RanOutOfSpaceError.class)
 	public void testAddIndexFull() {
 		makeFullList().addIndex("no space", 2);
 	}

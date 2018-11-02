@@ -3,40 +3,45 @@ package edu.smith.cs.csc212.p6;
 import org.junit.Test;
 
 import edu.smith.cs.csc212.p6.errors.EmptyListError;
-import edu.smith.cs.csc212.p6.errors.RanOutOfSpaceError;
 
 import org.junit.Assert;
 
-public class FixedSizeListTest {
+/**
+ * This is a class that contains a whole bunch of JUnit tests.
+ * @author jfoley
+ *
+ */
+public class SinglyLinkedListTest {
+
 	@Test
 	public void testEmpty() {
-		P6List<String> data = new FixedSizeList<String>(0);
+		P6List<String> data = new SinglyLinkedList<String>();
 		Assert.assertEquals(0, data.size());
-		data = new FixedSizeList<String>(32);
+		data = new SinglyLinkedList<String>();
 		Assert.assertEquals(0, data.size());
 	}
 	
 	@Test(expected=EmptyListError.class)
 	public void testRemoveFrontCrash() {
-		P6List<String> data = new FixedSizeList<String>(4);
+		P6List<String> data = new SinglyLinkedList<String>();
 		data.removeFront();
 	}
 	
 	@Test(expected=EmptyListError.class)
 	public void testRemoveBackCrash() {
-		P6List<String> data = new FixedSizeList<String>(4);
+		P6List<String> data = new SinglyLinkedList<String>();
 		data.removeBack();
 	}
 	
 	@Test(expected=EmptyListError.class)
 	public void testRemoveIndexCrash() {
-		P6List<String> data = new FixedSizeList<String>(4);
+		P6List<String> data = new SinglyLinkedList<String>();
 		data.removeIndex(3);
 	}
 
 	@Test
 	public void testAddToFront() {
-		P6List<String> data = new FixedSizeList<String>(4);
+		P6List<String> data = new SinglyLinkedList<String>();
 		data.addFront("1");
 		Assert.assertEquals(1, data.size());
 		Assert.assertEquals("1", data.getIndex(0));
@@ -58,7 +63,7 @@ public class FixedSizeListTest {
 	
 	@Test
 	public void testAddToBack() {
-		P6List<String> data = new FixedSizeList<String>(4);
+		P6List<String> data = new SinglyLinkedList<String>();
 		data.addBack("1");
 		Assert.assertEquals(1, data.size());
 		Assert.assertEquals("1", data.getIndex(0));
@@ -83,25 +88,19 @@ public class FixedSizeListTest {
 	 * @return
 	 */
 	public P6List<String> makeFullList() {
-		P6List<String> data = new FixedSizeList<String>(4);
-		data.addBack("a");
-		data.addBack("b");
-		data.addBack("c");
-		data.addBack("d");
+		P6List<String> data = new SinglyLinkedList<String>();
+		data.addFront("d");
+		data.addFront("c");
+		data.addFront("b");
+		data.addFront("a");
 		return data;
 	}
 	
-	@Test(expected=RanOutOfSpaceError.class)
-	public void testAddBackFull() {
-		makeFullList().addBack("no space");
-	}
 	
-	@Test(expected=RanOutOfSpaceError.class)
 	public void testAddFrontFull() {
 		makeFullList().addFront("no space");
 	}
 	
-	@Test(expected=RanOutOfSpaceError.class)
 	public void testAddIndexFull() {
 		makeFullList().addIndex("no space", 2);
 	}

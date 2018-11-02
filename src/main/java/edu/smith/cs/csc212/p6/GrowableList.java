@@ -14,17 +14,22 @@ public class GrowableList<T> implements P6List<T> {
 	}
 
 	@Override
+	/**Removes the first thing in the list
+	 * Big O Notation: O(n)
+	 */
 	public T removeFront() {
 		return removeIndex(0);	
 		}
 
 	@Override
+	/** Removes the last thing
+	 * Big O Notation: O(1) - we start from the back in GrowabaleList, so last is first
+	 */
 	public T removeBack() {
 		if (this.size() == 0) {
 			throw new EmptyListError();
 		}
 		
-		System.out.println(fill);
 		T value = this.getIndex(fill-1);
 		this.array[fill-1] = null;
 		System.out.print(fill);
@@ -34,6 +39,9 @@ public class GrowableList<T> implements P6List<T> {
 		}
 
 	@Override
+	/** Removes the thing at a specified index 
+	 * Big 0 Notation: O(n)
+	 */
 	public T removeIndex(int index) {
 		if (this.size() == 0) {
 			throw new EmptyListError();
@@ -48,22 +56,20 @@ public class GrowableList<T> implements P6List<T> {
 		}
 
 	@Override
+	/** Adds something to the front of list, makes it bigger if too small
+	 * Big O Notation: O(n)
+	 */
 	public void addFront(T item) {
 		if(fill >= this.array.length) {
 			makeArrayBigger();
 		}
 		
 		addIndex(item, 0);
-//		int newArraySize = fill * 2;
-//		Object[] newArray = new Object[newArraySize];
-//		
-//		for(int i = 0; i < array.length; i++) {
-//			newArray[i] = array[i+1];
-//		}
-//		this.array = newArray;
-//		this.array[0] = item;
 	}
 
+	/**
+	 * 	Doubles the size of the list
+	 */
 	private void makeArrayBigger() {
 		int newArraySize = fill * 2;
 		Object [] newArray = new Object[newArraySize];
@@ -73,11 +79,17 @@ public class GrowableList<T> implements P6List<T> {
 		this.array = newArray;
 	}
 	@Override
+	/**Adds something at the back
+	 * Big O Notation: O(1)
+	 */
 	public void addBack(T item) {
 		addIndex(item, fill);
 	}
 
 	@Override
+	/** Adds something at the given index
+	 * Big O Notation: O(n)
+	 */
 	public void addIndex(T item, int index) {
 		if (fill >= array.length) {
 			makeArrayBigger();
@@ -91,11 +103,17 @@ public class GrowableList<T> implements P6List<T> {
 	}
 	
 	@Override
+	/** Gets the thing at first index
+	 * Big O Notation: O(n)
+	 */
 	public T getFront() {
 		return this.getIndex(0);
 	}
 
 	@Override
+	/** Getst the thing at the last index
+	 * Big O Notation: O(1)
+	 */
 	public T getBack() {
 		return this.getIndex(this.fill-1);
 	}
@@ -107,16 +125,26 @@ public class GrowableList<T> implements P6List<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
+	/** Gets the thing at a specified index
+	 * Big O Notation: O(1)
+	 */
 	public T getIndex(int index) {
 		return (T) this.array[index];
 	}
 
 	@Override
+	/** Returns size of the list
+	 * Big O Notation: O(1)
+	 */
 	public int size() {
 		return fill;
 	}
 
 	@Override
+	/**
+	 * Returns whether or not the list in empty
+	 * Big O Notation: O(1)
+	 */
 	public boolean isEmpty() {
 		return fill == 0;
 	}

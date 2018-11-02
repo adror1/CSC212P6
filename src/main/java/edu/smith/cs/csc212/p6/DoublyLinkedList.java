@@ -3,7 +3,14 @@ package edu.smith.cs.csc212.p6;
 import edu.smith.cs.csc212.p6.errors.EmptyListError;
 import edu.smith.cs.csc212.p6.errors.P6NotImplemented;
 
-
+/**
+ * 
+ * @author arielledror
+ *
+ * @param <T>
+ * 
+ * Some of this was taken from this site: https://en.wikipedia.org/wiki/Doubly_linked_list
+ */
 
 public class DoublyLinkedList<T> implements P6List<T> {
 	private Node<T> start;
@@ -19,16 +26,42 @@ public class DoublyLinkedList<T> implements P6List<T> {
 	
 
 	@Override
+	/**
+	 * Removes from the front of the list
+	 */
 	public T removeFront() {
 		checkNotEmpty();
-		throw new P6NotImplemented();
-	}
+		T before = start.value;
+		start = start.after;
+		return before;	}
 
 	@Override
+	/**
+	 * Removes from the back of the list 
+	 */
 	public T removeBack() {
 		checkNotEmpty();
-		throw new P6NotImplemented();
-	}
+
+		if(start.after == null) {
+			T before = start.value;
+			start = start.after;
+
+			return before;
+		}
+	
+		Node<T> previous = null;
+		Node<T> previousPrevious = null;
+		for(Node<T> current = this.start; current != this.end; current = current.after) {
+			previousPrevious = previous;
+			previous = current;			
+
+		}
+		
+		
+		previousPrevious.after = null;
+		return previous.value;
+
+			}
 
 	@Override
 	public T removeIndex(int index) {
@@ -38,28 +71,30 @@ public class DoublyLinkedList<T> implements P6List<T> {
 
 	@Override
 	public void addFront(T item) {
-		throw new P6NotImplemented();
-	}
+			checkNotEmpty();
+			}
 
 	@Override
 	public void addBack(T item) {
+		checkNotEmpty();
 		throw new P6NotImplemented();
 	}
 
 	@Override
 	public void addIndex(T item, int index) {
+		checkNotEmpty();
 		throw new P6NotImplemented();
 	}
 
 	@Override
 	public T getFront() {
-		throw new P6NotImplemented();
+		return start.value;
 	}
 
 	@Override
 	public T getBack() {
 		throw new P6NotImplemented();
-	}
+		}
 	
 	@Override
 	public T getIndex(int index) {
@@ -68,13 +103,24 @@ public class DoublyLinkedList<T> implements P6List<T> {
 	}
 
 	@Override
+	/**
+	 * Returns size
+	 */
 	public int size() {
-		throw new P6NotImplemented();
-	}
+		int count = 0;
+		for (Node<T> n = this.start; n != null; n = this.end) {
+			count++;
+		}
+		
+		System.out.println(count);
+		return count;	}
 
 	@Override
+	/**
+	 * Returns whether or not the list is empty
+	 */
 	public boolean isEmpty() {
-		throw new P6NotImplemented();
+		return this.start == null;
 	}
 	
 	private void checkNotEmpty() {

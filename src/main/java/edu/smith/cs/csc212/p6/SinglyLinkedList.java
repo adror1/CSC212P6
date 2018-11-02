@@ -12,6 +12,9 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 	Node<T> start;
 
 	@Override
+	/**Removes first node
+	 * Big O Notation: O(1)
+	 */
 	public T removeFront() {
 		checkNotEmpty();
 		T before = start.value;
@@ -20,46 +23,120 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 	}
 
 	@Override
+	/**Removes last node
+	 * Big O Notation: O(n)
+	 */
 	public T removeBack() {
-		throw new P6NotImplemented();
+
+		checkNotEmpty();
+		
+		
+		if(start.next == null) {
+			T before = start.value;
+			start = start.next;
+
+			return before;
+		}
+		
+		Node<T> previous = null;
+		Node<T> previousPrevious = null;
+		for(Node<T> current = this.start; current != null; current = current.next) {
+			previousPrevious = previous;
+			previous = current;			
+
+		}
+		
+		
+		previousPrevious.next = null;
+		return previous.value;
+
+		
 	}
 
 	@Override
+	/**Removes node @ specified index
+	 * Big O Notation: O(n) -- might have to go all the way through the list to get the right index
+	 */
 	public T removeIndex(int index) {
-		throw new P6NotImplemented();
+		checkNotEmpty();
+		
+		T before = getIndex(index);
+		start = start.next;
+		return before;
+		
 	}
 
 	@Override
+	/**Adds node to front of list
+	 * Big O Notation: O(1)
+	 */
 	public void addFront(T item) {
 		this.start = new Node<T>(item, start);
 	}
 
 	@Override
+	/**Adds node to back of list
+	 * Big O Notation: O(n)
+	 */
 	public void addBack(T item) {
-		throw new P6NotImplemented();
+		Node<T> previous = null;
+		for (Node<T> current = start; current != null; current = current.next) {
+			previous = current;
+		}
+		if (previous != null) {
+			previous.next = new Node<T>(item, previous.next);
+		}
+
 	}
 
 	@Override
+	/** Supposed to add something at a specified index
+	 * Big O Notation: O(n) -- might have to go through the entire list
+	 */
 	public void addIndex(T item, int index) {
 		throw new P6NotImplemented();
 	}
 
 	@Override
+	/** Gets first thing in node
+	 * Big O Notation O(1) 
+	 */
 	public T getFront() {
 		return start.value;
 	}
 
 	@Override
+	/**
+	 * Gets thing in last node
+	 */
 	public T getBack() {
-		throw new P6NotImplemented();
-	}
+		Node<T> previous = null;
+		for(Node<T> current = this.start; current != null; current = current.next) {
+			previous = current;
+			
+		}
+		return previous.value;
+	} 
 
 	@Override
+	/**Gets the thing at a specified index
+	 * Big O Notation O(n) --might have to go to the end of the list
+	 */
 	public T getIndex(int index) {
-		throw new P6NotImplemented();
-	}
+		int at = 0;
+		for (Node<T> current = this.start; current != null; current = current.next) {
+			if (at == index) {
+				return current.value;
+			}
+			at++;
+		}
+		// We couldn't find it, throw an exception!
+		throw new IndexOutOfBoundsException();	}
 
 	@Override
+	/** Returns size of array
+	 * Big O Notation: O(n)-you need to iterate through the list
+	 */
 	public int size() {
 		int count = 0;
 		for (Node<T> n = this.start; n != null; n = n.next) {
@@ -69,8 +146,11 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 	}
 
 	@Override
+	/** Looks to see if first node is null...if it is, it's empty
+	 * Big O Notation: O(1)
+	 */
 	public boolean isEmpty() {
-		throw new P6NotImplemented();
+		return this.start == null;
 	}
 
 	/**
@@ -81,6 +161,19 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 			throw new EmptyListError();
 		}
 	}
+	
+	public String join() {
+		// A stringbuilder is an efficient way to create a new string in Java, since += makes copies.
+		StringBuilder sb = new StringBuilder();
+		for (Node<T> current = start; current != null; current = current.next) {
+			if (current != start) {
+				sb.append(' ');
+			}
+			sb.append(current.value);
+		}
+		return sb.toString();
+	}
+	
 
 	/**
 	 * The node on any linked list should not be exposed. Static means we don't need
